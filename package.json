@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx dotenv -e .env.development node index.js",
-    "start:dev": "npx dotenv -e .env.development nodemon index.js"
+    "start": "npx dotenv -e .env node server.js",
+    "start:dev": "npx dotenv -e .env nodemon server.js"
   },
   "author": "",
   "license": "ISC",
