@@ -34,8 +34,8 @@ import dotenv from 'dotenv'
 // const msg = {
 //   to: 'pcf7b44972xxo@gmail.com', // Change to your recipient
 //   from: 'koshijpn@gmail.com', // Change to your verified sender
-//   subject: 'Sending with SendGrid test',
-//   text: 'test',
+//   subject: 'Thank you for Signing up!',
+//   text: 'Thank you somuch!',
 //   html: '<strong>this is a test</strong>',
 // }
 
@@ -64,7 +64,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
-// app.use(morgan('combined')) 
+app.use(morgan('combined')) 
 app.use(morgan(':method :url :status'));
 
 app.use('/users', userRouter)
