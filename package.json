@@ -4,7 +4,9 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx dotenv -e .env.development node index.js",
+    "start:dev": "npx dotenv -e .env.development nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "prisma": "^5.7.1"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^7.3.0"
   }
 }
