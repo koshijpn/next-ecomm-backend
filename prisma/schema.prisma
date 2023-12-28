@@ -15,4 +15,16 @@ model User {
   name     String?
   email    String  @unique
   password String?
+  Image    Image[]
+}
+
+model Image {
+  id          Int     @id @default(autoincrement())
+  UserID      Int
+  price       Int
+  filename    String
+  title       String
+  description String?
+  url         String  // @unique imageがなくてもデータ保存可能
+  User        User    @relation(fields: [UserID], references: [id])
 }
