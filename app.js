@@ -221,7 +221,8 @@ app.post('/sign-in', async (req, res) => {
     
       const userFiltered = filter(user, 'id', 'name', 'email')
       const accessToken = await signAccessToken(userFiltered)
-      return res.json({ accessToken })
+      // Return user information along with the access token
+      return res.json({ user: userFiltered, accessToken });
     })
 
 /////////////////////////////////////////////
