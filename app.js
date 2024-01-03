@@ -7,26 +7,10 @@ import { filter } from "./src/utils/common.js"
 import userRouter from "./src/controllers/users.controllers.js"
 import authRouter from "./src/controllers/auth.controllers.js"
 import imgRouter from "./src/controllers/img.controllers.js"
-import paymentRouter from "./src/controllers/payment.controllers.js"
 import morgan from "morgan"
 import auth from "./src/middlewares/auth.js"
-// import { Pool, neonConfig } from '@neondatabase/serverless'
-// import { PrismaNeon } from '@prisma/adapter-neon'
+import stripe from 'stripe'
 import dotenv from 'dotenv'
-// import ws from 'ws'
-
-// import { PrismaClient } from "@prisma/client";
-// const prisma = new PrismaClient();
-
-
-// dotenv.config()
-// neonConfig.webSocketConstructor = ws
-// const connectionString = `${process.env.DATABASE_URL}`
-
-// const pool = new Pool({ connectionString })
-// const adapter = new PrismaNeon(pool)
-
-
 
 //////////////////////////////////////////////////////////////////
 //send email
@@ -54,7 +38,6 @@ import dotenv from 'dotenv'
 
 /////////////////////////////////////////////////////////////////////////////
 
-
 const app = express()
 
 app.use(express.json())
@@ -65,7 +48,6 @@ app.use(morgan(':method :url :status'));
 app.use('/users', userRouter)
 app.use('/auth', authRouter)
 app.use('/img', imgRouter)
-app.use('/payment', paymentRouter)
 
 /////////////////////////////////////////////
 
@@ -259,5 +241,32 @@ app.delete(`/delete-user/:id`, async (req, res) => {
 
 /////////////////////////////////////////////
 
+app.post('/create-checkout-session', async (req, res) => {
+  const stripeInstance = stripe(process.env.STRIPE_KEY);
+  try {
+    const session = await stripeInstance.checkout.sessions.create({
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'T-shirt',
+            },
+            unit_amount: 2000,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: 'http://localhost:5173/',
+      cancel_url: 'http://localhost:4242/cancel',
+    });
+    res.redirect(303, session.url);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
-export default app
+export default app;
+
