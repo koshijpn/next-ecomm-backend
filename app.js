@@ -7,6 +7,7 @@ import { filter } from "./src/utils/common.js"
 import userRouter from "./src/controllers/users.controllers.js"
 import authRouter from "./src/controllers/auth.controllers.js"
 import imgRouter from "./src/controllers/img.controllers.js"
+import paymentRouter from "./src/controllers/payment.controllers.js"
 import morgan from "morgan"
 import auth from "./src/middlewares/auth.js"
 // import { Pool, neonConfig } from '@neondatabase/serverless'
@@ -64,6 +65,7 @@ app.use(morgan(':method :url :status'));
 app.use('/users', userRouter)
 app.use('/auth', authRouter)
 app.use('/img', imgRouter)
+app.use('/payment', paymentRouter)
 
 /////////////////////////////////////////////
 

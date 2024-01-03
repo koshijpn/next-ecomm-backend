@@ -58,7 +58,6 @@ router.get('/', async (req, res) => {
     return res.json(images.map(image => filter(image, 'id', 'UserID', 'price', 'filename', 'title', 'description', 'url')));
   });
   
-
 // READ (GET)
 router.get('/:id', async (req, res) => {
   const imageId = parseInt(req.params.id, 10);

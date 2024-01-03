@@ -18,7 +18,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "prisma": "^5.7.1"
+    "prisma": "^5.7.1",
+    "stripe": "^14.10.0"
   },
   "devDependencies": {
     "dotenv-cli": "^7.3.0"
