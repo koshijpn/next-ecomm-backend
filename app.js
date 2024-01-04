@@ -241,6 +241,40 @@ app.delete(`/delete-user/:id`, async (req, res) => {
 
 /////////////////////////////////////////////
 
+// //成功版
+// app.post('/create-checkout-session', async (req, res) => {
+//   const stripeInstance = stripe(process.env.STRIPE_KEY);
+//   try {
+//     const session = await stripeInstance.checkout.sessions.create({
+//       line_items: [
+//         {
+//           price_data: {
+//             currency: 'usd',
+//             product_data: {
+//               name: 'T-shirt',
+//             },
+//             unit_amount: 2000,
+//           },
+//           quantity: 1,
+//         },
+//       ],
+//       mode: 'payment',
+//       success_url: 'http://localhost:5173/',
+//       cancel_url: 'http://localhost:4242/cancel',
+//     });
+//     res.redirect(303, session.url);
+//   } catch (error) {
+//     console.error('Error:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+// export default app;
+
+
+
+/////////////////////////////////////////////
+
 app.post('/create-checkout-session', async (req, res) => {
   const stripeInstance = stripe(process.env.STRIPE_KEY);
   try {
@@ -268,5 +302,4 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-export default app;
-
+// export default app;
