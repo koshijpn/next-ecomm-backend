@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post('/', async (req, res) => {
   const { imageId } = req.body; // Assuming the imageId is sent in the request body
-  console.log('Request Body:', req.body);
+  // console.log('Request Body:', req.body);
 
   try {
     const imageDetails = await prisma.image.findUnique({
@@ -23,14 +23,13 @@ router.post('/', async (req, res) => {
             currency: 'usd',
             product_data: {
               name: imageDetails.title,
-              description: imageDetails.description
+              description: imageDetails.description,
             },
             unit_amount: imageDetails.price * 100 // Convert price to cents
           },
-          quantity: 1
+          quantity: 1,
         }
       ];
-
       // Create a Stripe checkout session
       const session = await stripeClient.checkout.sessions.create({
         line_items: lineItems,
@@ -38,8 +37,8 @@ router.post('/', async (req, res) => {
         success_url: 'http://localhost:5173/success', // Replace with your success URL
         cancel_url: 'http://localhost:5173/cancel' // Replace with your cancel URL
       });
-
       return res.json(session.url);
+      
     } else {
       // Image details not found
       res.status(404).json({ error: 'Image not found' });
