@@ -7,6 +7,7 @@ import { filter } from "./src/utils/common.js"
 import userRouter from "./src/controllers/users.controllers.js"
 import authRouter from "./src/controllers/auth.controllers.js"
 import imgRouter from "./src/controllers/img.controllers.js"
+import checkoutRouter from "./src/controllers/payment.controllers.js"
 import morgan from "morgan"
 import auth from "./src/middlewares/auth.js"
 import stripe from 'stripe'
@@ -48,6 +49,7 @@ app.use(morgan(':method :url :status'));
 app.use('/users', userRouter)
 app.use('/auth', authRouter)
 app.use('/img', imgRouter)
+app.use('/create-checkout-session', checkoutRouter)
 
 /////////////////////////////////////////////
 
@@ -275,31 +277,52 @@ app.delete(`/delete-user/:id`, async (req, res) => {
 
 /////////////////////////////////////////////
 
-app.post('/create-checkout-session', async (req, res) => {
-  const stripeInstance = stripe(process.env.STRIPE_KEY);
-  try {
-    const session = await stripeInstance.checkout.sessions.create({
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'T-shirt',
-            },
-            unit_amount: 2000,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: 'http://localhost:5173/',
-      cancel_url: 'http://localhost:4242/cancel',
-    });
-    res.redirect(303, session.url);
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+// app.post('/create-checkout-session', async (req, res) => {
+//   const stripeInstance = stripe(process.env.STRIPE_KEY);
 
-// export default app;
+//     // READ (GET)
+//   app.get('/img/:id', async (req, res) => {
+//     const imageId = parseInt(req.params.id, 10);
+
+//     // Retrieve image by ID using Prisma
+//     const image = await prisma.image.findUnique({
+//       where: {
+//         id: imageId,
+//       },
+//     });
+
+//     if (!image) {
+//       return res.status(404).json({
+//         error: 'Image not found',
+//       });
+//     }
+
+//     return res.json(filter(image, 'id', 'UserID', 'price', 'filename', 'title', 'description', 'url'));
+//   });
+  
+//   try {
+//     const session = await stripeInstance.checkout.sessions.create({
+//       line_items: [
+//         {
+//           price_data: {
+//             currency: 'usd',
+//             product_data: {
+//               name: 'T-shirt',
+//             },
+//             unit_amount: 2000,
+//           },
+//           quantity: 1,
+//         },
+//       ],
+//       mode: 'payment',
+//       success_url: 'http://localhost:5173/',
+//       cancel_url: 'http://localhost:4242/cancel',
+//     });
+//     res.redirect(303, session.url);
+//   } catch (error) {
+//     console.error('Error:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+export default app;
