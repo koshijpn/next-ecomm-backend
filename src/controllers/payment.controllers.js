@@ -3,6 +3,7 @@ import prisma from '../utils/prisma.js'
 import stripe from 'stripe';
 
 const stripeClient = stripe(process.env.STRIPE_KEY);
+const frontendUrl = process.env.FE_URL;
 const router = express.Router()
 
 router.post('/', async (req, res) => {
@@ -34,8 +35,8 @@ router.post('/', async (req, res) => {
       const session = await stripeClient.checkout.sessions.create({
         line_items: lineItems,
         mode: 'payment',
-        success_url: 'http://localhost:5173/success', // Replace with your success URL
-        cancel_url: 'http://localhost:5173/cancel' // Replace with your cancel URL
+        success_url: frontendUrl + '/payment/success/' + imageId, // Replace with your success URL
+        cancel_url: frontendUrl + '/payment/cancel' // Replace with your cancel URL
       });
       return res.json(session.url);
       
