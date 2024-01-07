@@ -10,8 +10,6 @@ import imgRouter from "./src/controllers/img.controllers.js"
 import checkoutRouter from "./src/controllers/payment.controllers.js"
 import morgan from "morgan"
 import auth from "./src/middlewares/auth.js"
-import stripe from 'stripe'
-import dotenv from 'dotenv'
 
 //////////////////////////////////////////////////////////////////
 //send email
